@@ -11,28 +11,17 @@
 #define I2C_ADDR 0x27                   //Lcd i2c addresse 0x27
 LiquidCrystal_I2C lcd(I2C_ADDR,16,2);   //Instance Afficheur LCD, i2c addresse 0x27, 16 caracères sur 2 lignes
 
-/* Définition non utilisées dans le code
-#define BACKLIGHT_PIN 3
-#define En_pin 2
-#define Rw_pin 1
-#define Rs_pin 0
-#define D4_pin 4
-#define D5_pin 5
-#define D6_pin 6
-#define D7_pin 7
-*/
-
 // Pin definitions:
 
 Encoder thrEnc(2, 3);   // Instance encodeur port 2 (interrupt) et 3 (interrupt)
-int encButPin = 4;      // Click encodeur central
+int encButPin = 5;      // Click encodeur central
 int relayPin = 11;      // Pin command du relay
 int vacSensPin = A0;    // Pin sensor MPX5100_DP
 
 
 // Variables definitions:
 
-int addr1 = 0; //Adresse EEPROM Valeur Règlage 
+int addr1 = 2; //Adresse EEPROM Valeur Règlage 
 int addr2 = 4; //Adresse EEPROM Valeur Marge
 int value1;
 int value2;
@@ -51,6 +40,10 @@ boolean vacSwitch;
 int vacuum;
 int vacVal;
 int oldVal;
+
+// Debug
+
+boolean debug = 1;
 
 // Fonctions definitions:
 
@@ -74,9 +67,10 @@ void setup() {
   Serial.begin(9600);
 
   lcd.init();       // initialize the lcd
-  lcd.backlight();  // Activer le rétroéclairage;
+  lcd.backlight();  // Allume le back light
+  lcd.setCursor(0, 0);
+  lcd.print("Reglage:   -");
   lcd.setCursor(0, 1);
-  //lcd.print("Vacuum:");
   lcd.print("Mesure:");
   lcd.setCursor(13, 1);
   lcd.print("mBr");
@@ -219,14 +213,7 @@ void loop() {
   // Affichage de la nouvelle valeur
   lcd.setCursor(9, 1);
   lcd.print(vacVal);
-  /*
-  Serial.print(vacVal);
-  Serial.print("_");
-  Serial.print(readIntFromEEPROM(addr1));
-  Serial.print("_");
-  Serial.println(readIntFromEEPROM(addr2));
-  */
-  if (vacVal > 0) {
+    if (vacVal > 0) {
     lcd.setCursor(8, 1);
     lcd.print("-");
   } else {
@@ -239,5 +226,14 @@ void loop() {
   } else if (vacVal < 100) {
     lcd.setCursor(11, 1);
     lcd.print(" ");
+  }
+
+  // Debug
+  if (debug=1) {
+    Serial.print(vacVal);
+    Serial.print("_");
+    Serial.print(readIntFromEEPROM(addr1));
+    Serial.print("_");
+    Serial.println(readIntFromEEPROM(addr2));
   }
 }
