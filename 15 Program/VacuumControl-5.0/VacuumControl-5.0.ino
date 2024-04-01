@@ -2,9 +2,9 @@
 // Vacuum Controller, modification ZINK Thierry 2024.
 
 
-#include <EEPROM.h>
+#include <EEPROM.h>               // Libray EEPROM: https://docs.arduino.cc/learn/built-in-libraries/eeprom/#read
 #include <Encoder.h>              // Encoder Library: https://www.pjrc.com/teensy/td_libs_Encoder.html
-#include <LiquidCrystal_I2C.h>
+#include <LiquidCrystal_I2C.h>    // Ecran LCD: https://github.com/johnrickman/LiquidCrystal_I2C
 
 // LCD definition
 
@@ -43,7 +43,7 @@ int oldVal;
 
 // Debug
 
-boolean debug = 1;
+boolean debug = 1;              // Mode Debug Valeur à 1 sinon 0  
 
 // Fonctions definitions:
 
@@ -66,19 +66,19 @@ void setup() {
 
   Serial.begin(9600);
 
-  lcd.init();       // initialize the lcd
-  lcd.backlight();  // Allume le back light
-  lcd.setCursor(0, 0);
-  lcd.print("Reglage:   -");
-  lcd.setCursor(0, 1);
-  lcd.print("Mesure:");
-  lcd.setCursor(13, 1);
-  lcd.print("mBr");
+  lcd.init();                     // initialize the lcd
+  lcd.backlight();                // Allume le back light
+  lcd.setCursor(0, 0);            // Position Ecriture colone 0 ligne 0
+  lcd.print("Reglage:   -");      // Ecriture 
+  lcd.setCursor(0, 1);            // Position Ecriture colone 0 ligne 0
+  lcd.print("Mesure:");           // Ecriture
+  lcd.setCursor(13, 1);           // Position Ecriture colone 13 ligne 1
+  lcd.print("mBr");               // Ecriture
 
   //Initialisation par lecture des valeurs dans l'EEPROM
   
-  value1 = readIntFromEEPROM(addr1);
-  value2 = readIntFromEEPROM(addr2);
+  value1 = readIntFromEEPROM(addr1);  // Lecture de la valeur dans l'adresse 1
+  value2 = readIntFromEEPROM(addr2);  // Lecture de la valeur dans l'adresse 2
   encPos1 = (value1 * 4);
   encPos2 = (value2 * 4);
 
@@ -211,6 +211,7 @@ void loop() {
   }
   
   // Affichage de la nouvelle valeur
+
   lcd.setCursor(9, 1);
   lcd.print(vacVal);
     if (vacVal > 0) {
@@ -229,6 +230,7 @@ void loop() {
   }
 
   // Debug
+
   if (debug=1) {
     Serial.print(vacVal);
     Serial.print("_");
