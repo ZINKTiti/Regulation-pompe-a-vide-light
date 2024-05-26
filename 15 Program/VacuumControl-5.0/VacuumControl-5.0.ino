@@ -21,8 +21,8 @@ int vacSensPin = A0;    // Pin sensor MPX5100_DP
 
 // Variables definitions:
 
-int addr1 = 2; //Adresse EEPROM Valeur Règlage 
-int addr2 = 4; //Adresse EEPROM Valeur Marge
+int addr1 = 2;          //Adresse EEPROM Valeur Règlage 
+int addr2 = 4;          //Adresse EEPROM Valeur Marge
 int value1;
 int value2;
 
