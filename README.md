@@ -18,5 +18,10 @@ The original is comming from [This](https://www.rcgroups.com/forums/showthread.p
 
 Ce montage est un moyen de reguler le vide pour le moulage sous vide de model réduit
 
+:warning: ATTENTION :warning: |
+:--:|
+**Ce montage comporte des connection en 220V. Prenez toutes le mesure de sécuriter afin d'éviter tous choque éléctrique pouvant entrainer des domages corporel ireversible voir entrainer la mort**|
+**Ne jamais intervenir sur votre montage sous tension**|
+
 Vous pouvez trouver le wiki [ICI](https://github.com/ZINKTiti/Regulation-pompe-a-vide-light/wiki)
 L'idée original viens de ce [cite](https://www.rcgroups.com/forums/showthread.php?2617244-Arduino-vacuum-pump-controller/page2)
