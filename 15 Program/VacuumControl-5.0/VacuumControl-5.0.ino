@@ -79,29 +79,9 @@ void setup() {
   
   valeurconsigne = readIntFromEEPROM(adrrconsigne); // Lecture de la valeur en mémoire dans l'adresse 1 du reglage
   valeurhyste = readIntFromEEPROM(addrhyste);       // Lecture de la valeur en mémoire dans l'adresse 2 de l'hysteresis
-
-  Serial.print("INIT EEPROM Consigne:");
-  Serial.print(readIntFromEEPROM(adrrconsigne));
-  Serial.print("_");
-  Serial.print(EEPROM.read(2));
-  Serial.print("/");
-  Serial.print(EEPROM.read(3));
-  Serial.print("_");
-  Serial.print("INIT EEPROM Hyste:");
-  Serial.print(readIntFromEEPROM(addrhyste));
-  Serial.print("_");
-  Serial.print(EEPROM.read(4));
-  Serial.print("/");
-  Serial.println(EEPROM.read(5));
- 
-  delay(10000);
-
   encPos1 = (valeurconsigne* 4);
   encPos2 = (valeurhyste * 4);
-
-  Serial.println(encPos1);
-
-  delay(10000);
+  thrEnc.write(encPos1);
 
   // Initialisation des port
   
@@ -117,6 +97,7 @@ void setup() {
   pinMode(vacSensPin, INPUT);
   
 }
+
 void loop() {
 
   // Analyse le Bouton de l'encodeur:
@@ -148,10 +129,6 @@ void loop() {
   }
 
   // Lecture de l'encodeur:
-
-Serial.println(encPos1);
-Serial.println(valeurconsigne);
-//delay(10000);
 
   if (encSel) {
     encPos1 = thrEnc.read();
