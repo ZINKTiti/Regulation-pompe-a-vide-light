@@ -21,10 +21,10 @@ int vacSensPin = A0;    // Pin sensor MPX5100_DP
 
 // Variables definitions:
 
-int addr1 = 2;          //Adresse EEPROM Valeur Règlage 
-int addr2 = 4;          //Adresse EEPROM Valeur Marge
-int value1;
-int value2;
+int adrrconsigne = 2;   //Adresse EEPROM Valeur Règlage 
+int addrhyste = 4;      //Adresse EEPROM Valeur Marge
+int valeurconsigne;     //Valeur de consigne
+int valeurhyste;        //Valeur de hysteresise
 
 boolean encBut = 1;
 boolean oldBut = 1;
@@ -47,19 +47,19 @@ boolean debug = 1;              // Mode Debug Valeur à 1 sinon 0
 
 // Fonctions definitions:
 
-void writeIntIntoEEPROM(int address, int number)
+void writeIntIntoEEPROM(int address, int number)  // ecriture en memoire dun nombre number dans l'adresse address
 { 
-  byte byte1 = number >> 8;
-  byte byte2 = number & 0xFF;
-  EEPROM.write(address, byte1);
-  EEPROM.write(address + 1, byte2);
+  byte byte1 = number >> 8;           // Extraire l'octet de poids fort (octet le plus significatif)
+  byte byte2 = number & 0xFF;         // Extraire l'octet de poids faible (octet le moins significatif)
+  EEPROM.write(address, byte1);       // Écrire l'octet de poids fort dans l'EEPROM
+  EEPROM.write(address + 1, byte2);   // Écrire l'octet de poids faible à l'adresse suivante
 }
 
-int readIntFromEEPROM(int address)
+int readIntFromEEPROM(int address)                // lecture en memoire dun nombre number dans l'adresse address
 {
-  byte byte1 = EEPROM.read(address);
-  byte byte2 = EEPROM.read(address + 1);
-  return (byte1 << 8) + byte2;
+  byte byte1 = EEPROM.read(address);      // Lire l'octet de poids fort
+  byte byte2 = EEPROM.read(address + 1);  // Lire l'octet de poids faible
+  return (byte1 << 8) | byte2;            // Combiner les deux octets pour reformer l'entier
 }
 
 void setup() {
@@ -77,19 +77,43 @@ void setup() {
 
   //Initialisation par lecture des valeurs dans l'EEPROM
   
-  value1 = readIntFromEEPROM(addr1);  // Lecture de la valeur dans l'adresse 1
-  value2 = readIntFromEEPROM(addr2);  // Lecture de la valeur dans l'adresse 2
-  encPos1 = (value1 * 4);
-  encPos2 = (value2 * 4);
+  valeurconsigne = readIntFromEEPROM(adrrconsigne); // Lecture de la valeur en mémoire dans l'adresse 1 du reglage
+  valeurhyste = readIntFromEEPROM(addrhyste);       // Lecture de la valeur en mémoire dans l'adresse 2 de l'hysteresis
+
+  Serial.print("INIT EEPROM Consigne:");
+  Serial.print(readIntFromEEPROM(adrrconsigne));
+  Serial.print("_");
+  Serial.print(EEPROM.read(2));
+  Serial.print("/");
+  Serial.print(EEPROM.read(3));
+  Serial.print("_");
+  Serial.print("INIT EEPROM Hyste:");
+  Serial.print(readIntFromEEPROM(addrhyste));
+  Serial.print("_");
+  Serial.print(EEPROM.read(4));
+  Serial.print("/");
+  Serial.println(EEPROM.read(5));
+ 
+  delay(10000);
+
+  encPos1 = (valeurconsigne* 4);
+  encPos2 = (valeurhyste * 4);
+
+  Serial.println(encPos1);
+
+  delay(10000);
 
   // Initialisation des port
   
+    // Configuration du bouton avec pull-up interne
   pinMode(encButPin, INPUT);
   digitalWrite(encButPin, HIGH);
 
+    // Configuration du relais en sortie, désactivé au départ
   pinMode(relayPin, OUTPUT);
   digitalWrite(relayPin, LOW);
 
+    // Configuration de la broche du capteur en entrée
   pinMode(vacSensPin, INPUT);
   
 }
@@ -104,27 +128,30 @@ void loop() {
   // Sur l'afficheur en ligne 1 affichage de la valeur mesurée
 
   encBut = digitalRead(encButPin);
-  if (encBut != oldBut) {
+  if (encBut != oldBut) {         // Vérifie s'il y a un changement d'état
     if (encBut == 0) {
-      encSel = !encSel;
+      encSel = !encSel;           // Bascule la valeur de encSel
     }
-    // Affiche la consigne
-    if (encSel == 1) {
+    if (encSel == 1) {            // Affiche la consigne
       thrEnc.write(encPos1);
       lcd.setCursor(0, 0);
       lcd.print("Reglage:   -");
 
-    } else if (encSel == 0) {   //Affiche l'hystérésis
+    } else if (encSel == 0) {     //Affiche l'hystérésis
       thrEnc.write(encPos2);
       lcd.setCursor(0, 0);
       lcd.print("Marge:  +/- ");
       lcd.setCursor(14, 0);
       lcd.print(" ");
     }
-    oldBut = encBut;
+    oldBut = encBut;              // Met à jour l'état précédent du bouton
   }
 
   // Lecture de l'encodeur:
+
+Serial.println(encPos1);
+Serial.println(valeurconsigne);
+//delay(10000);
 
   if (encSel) {
     encPos1 = thrEnc.read();
@@ -133,7 +160,7 @@ void loop() {
     }
     
     // Si l'encodeur a été tourné et encSel = 1 (Régage de la consigne)
-    // Test des des valeurs limites de la consigne qui doit être >= 10 et <= 99
+    // Test des valeurs limites de la consigne qui doit être >= 10 et <= 99
     // Si en dehors des limites la consigne est mis à la limite correspondante
     if (encPos1 >= (99 * 4)) {
       encPos1 = (99 * 4);
@@ -145,7 +172,7 @@ void loop() {
     
     // La consigne est mise en mémoire dans l'EEPROM et affichée
     int val = ((encPos1) / 4);
-    writeIntIntoEEPROM(addr1, val);
+    writeIntIntoEEPROM(adrrconsigne, val);
     lcd.setCursor(12, 0);
     lcd.print((encPos1 / 4) * 10);
   }
@@ -168,7 +195,7 @@ void loop() {
     
     // La valeur de l'hystérésis est mise en mémoire dans l'EEPROM et affichée
     int val = ((encPos2) / 4);
-    writeIntIntoEEPROM(addr2, val);
+    writeIntIntoEEPROM(addrhyste, val);
     lcd.setCursor(12, 0);
     lcd.print(encPos2 / 4);
     if ((encPos2 / 4) < 10) {
@@ -232,10 +259,30 @@ void loop() {
   // Debug
 
   if (debug=1) {
+    Serial.print("Sensor:");
     Serial.print(vacVal);
     Serial.print("_");
-    Serial.print(readIntFromEEPROM(addr1));
+    Serial.print("Consigne Enc:");
+    Serial.print(encPos1);
     Serial.print("_");
-    Serial.println(readIntFromEEPROM(addr2));
+    Serial.print("Consigne Hyst:");
+    Serial.print(encPos2);
+    Serial.print("_");
+    Serial.print("Etat Relay:");
+    Serial.print(vacSwitch);
+    Serial.print("_");
+    Serial.print("EEPROM Consigne:");
+    Serial.print(readIntFromEEPROM(adrrconsigne));
+    Serial.print("_");
+    Serial.print(EEPROM.read(2));
+    Serial.print("/");
+    Serial.print(EEPROM.read(3));
+    Serial.print("_");
+    Serial.print("EEPROM Hyste:");
+    Serial.print(readIntFromEEPROM(addrhyste));
+    Serial.print("_");
+    Serial.print(EEPROM.read(4));
+    Serial.print("/");
+    Serial.println(EEPROM.read(5));
   }
 }
