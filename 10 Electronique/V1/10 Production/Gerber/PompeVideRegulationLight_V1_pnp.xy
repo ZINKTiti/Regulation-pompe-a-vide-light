@@ -1,0 +1,37 @@
+# Pick And Place List
+# Company=
+# Author=
+# eMail=
+#
+# Project=PompeVideRegulationLight_V1
+# Date=00:41:03
+# CreatedBy=Fritzing 1.0.4.2024-10-07.CD-2088-0-a8c6ef7c
+#
+#
+# Coordinates in mils, always center of component
+# Origin 0/0=Lower left corner of PCB
+# Rotation in degree (0-360, math. pos.)
+#
+RefDes,Description,Package,X,Y,Rotation,Side,Mount
+Description: resistance;capacitance;inductance;voltage;current;power;mpn;mn;
+Via10,";;;;;;;;","",1306.22,2312.25,0,Top,MANUAL
+F2,";;;;;;;;","fuse_5mm",2669.92,312.244,-90,Top,SMT
+POWER IN,";;;;;;;;","THT",3412.8,2372.25,90,Top,THT
+F1,";;;;;;;;","fuse_5mm",4006.22,1875.95,180,Top,SMT
+Via6,";;;;;;;;","",2606.23,2312.25,0,Top,MANUAL
++/-,";;;;;;;;","THT",1499.64,1752.25,-90,Top,THT
+Via4,";;;;;;;;","",2406.23,2212.25,0,Top,MANUAL
+Via5,";;;;;;;;","",2506.23,2212.25,0,Top,MANUAL
+MPX5100DP,";;;;;;;;","",771.957,136.658,180,Top,MANUAL
+Arduino UNO,";;;;;;;;","",1653.8,1562.14,0,Top,MANUAL
+SW/__,";;;;;;;;","THT",2299.64,1752.25,-90,Top,THT
+-/+,";;;;;;;;","THT",1099.64,1752.25,-90,Top,THT
+Via2,";;;;;;;;","",3706.23,312.236,0,Top,MANUAL
+Via11,";;;;;;;;","",2306.23,2212.25,0,Top,MANUAL
+HLK-PM1,";;;;;;;;","",3408.64,1190.86,90,Top,MANUAL
+SCL/SDA,";;;;;;;;","THT",699.644,1752.25,-90,Top,THT
+Via9,";;;;;;;;","",1106.22,2312.25,0,Top,MANUAL
+Via3,";;;;;;;;","",1606.23,2312.25,0,Top,MANUAL
++/-,";;;;;;;;","THT",1899.64,1752.25,-90,Top,THT
+Via8,";;;;;;;;","",1006.22,2312.25,0,Top,MANUAL
+DT/CLK,";;;;;;;;","THT",2699.64,1752.25,-90,Top,THT

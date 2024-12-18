@@ -1,0 +1,36 @@
+# Pick And Place List
+# Company=
+# Author=
+# eMail=
+#
+# Project=PompeVideRegulationLight_V0
+# Date=00:37:40
+# CreatedBy=Fritzing 1.0.4.2024-10-07.CD-2088-0-a8c6ef7c
+#
+#
+# Coordinates in mils, always center of component
+# Origin 0/0=Lower left corner of PCB
+# Rotation in degree (0-360, math. pos.)
+#
+RefDes,Description,Package,X,Y,Rotation,Side,Mount
+Description: resistance;capacitance;inductance;voltage;current;power;mpn;mn;
+Via6,";;;;;;;;","",2606.23,2312.25,0,Top,MANUAL
+J3,";;;;;;;;","THT",1099.64,1752.25,-90,Top,THT
+Via11,";;;;;;;;","",2306.23,2212.25,0,Top,MANUAL
+J1,";;;;;;;;","THT",3412.8,2372.25,90,Top,THT
+Via9,";;;;;;;;","",806.228,2312.25,0,Top,MANUAL
+J6,";;;;;;;;","THT",1499.64,1752.25,-90,Top,THT
+Via10,";;;;;;;;","",1206.23,2312.25,0,Top,MANUAL
+J4,";;;;;;;;","THT",2699.64,1752.25,-90,Top,THT
+Via1,";;;;;;;;","",3106.23,612.24,0,Top,MANUAL
+J2,";;;;;;;;","THT",699.644,1752.25,-90,Top,THT
+Via3,";;;;;;;;","",1606.23,2312.25,0,Top,MANUAL
+J5,";;;;;;;;","THT",2299.64,1752.25,-90,Top,THT
+Composant1,";;;;;;;;","",1653.8,1562.14,0,Top,MANUAL
+Via4,";;;;;;;;","",2406.23,2212.25,0,Top,MANUAL
+Via2,";;;;;;;;","",3706.23,612.24,0,Top,MANUAL
+MPX1,";;;;;;;;","",771.957,136.658,180,Top,MANUAL
+Via5,";;;;;;;;","",2506.23,2212.25,0,Top,MANUAL
+J7,";;;;;;;;","THT",1899.64,1752.25,-90,Top,THT
+HLK-PM1,";;;;;;;;","",3408.64,1390.86,90,Top,MANUAL
+Via8,";;;;;;;;","",606.228,2312.25,0,Top,MANUAL
