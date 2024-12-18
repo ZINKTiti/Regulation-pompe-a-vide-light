@@ -6,6 +6,10 @@
 #include <Encoder.h>              // Encoder Library: https://www.pjrc.com/teensy/td_libs_Encoder.html
 #include <LiquidCrystal_I2C.h>    // Ecran LCD: https://github.com/johnrickman/LiquidCrystal_I2C
 
+// Debug
+
+boolean debug = 1;              // Mode Debug Valeur à 1 sinon 0  
+
 // LCD definition
 
 #define I2C_ADDR 0x27                   //Lcd i2c addresse 0x27
@@ -40,10 +44,6 @@ boolean vacSwitch;
 int vacuum;
 int vacVal;
 int oldVal;
-
-// Debug
-
-boolean debug = 1;              // Mode Debug Valeur à 1 sinon 0  
 
 // Fonctions definitions:
 
